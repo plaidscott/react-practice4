@@ -1,5 +1,7 @@
 .Card {
-  height: 175px;
-  width: 90px;
-  background-color: azure;
+  height: 240px;
+  width: 180px;
+  background-color: black;
+  border-radius: 25%;
+  opacity: .8;
 }

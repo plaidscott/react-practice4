@@ -1,7 +1,18 @@
 .Main {
   height: 100vh;
   width: 100vw;
-  background-color: blue;
+  background-image: url('../media/starsBackground.png');
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.searchbar {
+  height: 100px;
+  width: 400px;
+  background-color: black;
   margin: 0 auto;
-  text-align: center;
+}
+
+.whiteText {
+  color: white;
 }
