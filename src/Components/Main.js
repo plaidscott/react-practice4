@@ -10,19 +10,21 @@ class Main extends Component {
     super(props);
     this.state = {
       testResponse: '',
-      searchInput: ''
+      searchInput: '',
+      peoplesResponse: []
     }
-    this.testRequest = this.testRequest.bind(this);
+    this.initialData = this.initialData.bind(this);
     this.handleChangeSearchInput = this.handleChangeSearchInput.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   }
   componentWillMount() {
-    this.testRequest();
+    this.initialData();
   }
-  testRequest() {
-    api.test()
+  initialData() {
+    api.initialData()
       .then( response  => {
-        console.log('response in testRequest in Main.js', response);
+        console.log('response in initialData in Main.js', response.data);
+        this.setState({ peoplesResponse: response.data})
       })
   }
   handleChangeSearchInput(e) {
@@ -34,6 +36,7 @@ class Main extends Component {
       api.search(this.state.searchInput)
         .then( response => {
           console.log('response in handleSearch', response);
+          this.setState({ peoplesResponse: response.data})
         })
       this.setState({searchInput: ''})
     }
@@ -56,7 +59,7 @@ class Main extends Component {
               ></FormControl>
           </FormGroup>
         </div>
-        <Cardholder />
+        <Cardholder responseArray={this.state.peoplesResponse}/>
       </div>
     );
   }

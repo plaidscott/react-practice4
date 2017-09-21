@@ -8,18 +8,24 @@ class Cardholder extends Component {
     super(props);
     this.state = {
       currentPage: 1,
-      responseObject: {}
+      responseArray: [{name: 'scott'}],
+      cards: [ <Card />, <Card/>]
     }
     this.renderCards = this.renderCards.bind(this);
   }
 
   renderCards() {
-    
+    return this.props.responseArray.map( (person, index) => {
+      return (
+        <Card key={index} name={person.name}/>
+      );
+    })
   }
   render() {
+    console.log('this.props in cardholder', this.props)
     return (
       <div className="Cardholder">
-        <Card />
+        {this.renderCards()}
       </div>
     );
   }
