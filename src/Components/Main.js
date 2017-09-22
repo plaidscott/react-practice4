@@ -11,22 +11,41 @@ class Main extends Component {
     this.state = {
       testResponse: '',
       searchInput: '',
-      peoplesResponse: []
+      peoplesResponse: [],
+      planets: [],
+      currentPage: 1,
+      totalPersons: 0
     }
     this.initialData = this.initialData.bind(this);
     this.handleChangeSearchInput = this.handleChangeSearchInput.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.changePage = this.changePage.bind(this);
+    this.initialPlanetList = this.initialPlanetList.bind(this);
   }
   componentWillMount() {
     this.initialData();
+    this.initialPlanetList();
   }
   initialData() {
     api.initialData()
       .then( response  => {
-        console.log('response in initialData in Main.js', response.data);
-        this.setState({ peoplesResponse: response.data})
+        this.setState({
+          peoplesResponse: response.data,
+          totalPersons: response.headers['x-total-count']
+
+        })
       })
   }
+
+  initialPlanetList() {
+    api.requestPlanetList()
+      .then( response => {
+        this.setState({
+          planets: response
+        })
+      })
+  }
+
   handleChangeSearchInput(e) {
     this.setState({ searchInput: e.target.value});
   }
@@ -36,10 +55,17 @@ class Main extends Component {
       api.search(this.state.searchInput)
         .then( response => {
           console.log('response in handleSearch', response);
-          this.setState({ peoplesResponse: response.data})
+          this.setState({
+            peoplesResponse: response.data,
+            totalPersons: response.headers['x-total-count']
+          })
         })
       this.setState({searchInput: ''})
     }
+  }
+  changePage(incrementNumber) {
+    console.log('this.changePage');
+    this.setState({currentPage: this.state.currentPage + incrementNumber})
   }
 
 
@@ -59,7 +85,7 @@ class Main extends Component {
               ></FormControl>
           </FormGroup>
         </div>
-        <Cardholder responseArray={this.state.peoplesResponse}/>
+        <Cardholder responseArray={this.state.peoplesResponse} currentPage={this.state.currentPage} changePage={this.changePage} totalPersons={this.state.totalPersons} planets={this.state.planets}/>
       </div>
     );
   }

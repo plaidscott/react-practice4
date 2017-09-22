@@ -1,11 +1,23 @@
-.Cardholder {
+.cardholderContainer {
   height: 630px;
   width: 1170px;
   background-image: url('../media/rebelSymbol.jpg');
   margin: 0 auto;
-  padding: 50px;
+}
+
+.Cardholder {
+  height: 90%;
+  width: 100%;
+  padding: 20px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.pageChangeButtonsContainer {
+  height: 5%;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
 
 }
