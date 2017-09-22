@@ -14,7 +14,8 @@ class Main extends Component {
       peoplesResponse: [],
       planets: [],
       currentPage: 1,
-      totalPersons: 0
+      totalPersons: 0,
+      stillReadingInitalData: true
     }
     this.initialData = this.initialData.bind(this);
     this.handleChangeSearchInput = this.handleChangeSearchInput.bind(this);
@@ -23,11 +24,11 @@ class Main extends Component {
     this.initialPlanetList = this.initialPlanetList.bind(this);
   }
   componentWillMount() {
-    this.initialData();
+    this.initialData(this.state.currentPage);
     this.initialPlanetList();
   }
-  initialData() {
-    api.initialData()
+  initialData(currentPage) {
+    api.initialData(currentPage)
       .then( response  => {
         this.setState({
           peoplesResponse: response.data,
@@ -52,6 +53,7 @@ class Main extends Component {
   handleSearch(e) {
     e.preventDefault();
     if(e.keyCode === 13) {
+      this.setState({currentPage: 1})
       api.search(this.state.searchInput)
         .then( response => {
           console.log('response in handleSearch', response);
@@ -64,8 +66,10 @@ class Main extends Component {
     }
   }
   changePage(incrementNumber) {
+    let newPageNumber = this.state.currentPage + incrementNumber;
     console.log('this.changePage');
-    this.setState({currentPage: this.state.currentPage + incrementNumber})
+    this.setState({currentPage: newPageNumber})
+    this.initialData(newPageNumber)
   }
 
 

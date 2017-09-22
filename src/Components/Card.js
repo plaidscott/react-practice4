@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 import '../Styles/Card.css';
 
 class Card extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      updatedName: '',
+      updatedBirthYear: '',
+      updatedHairColor: '',
+      updatedHomeworld: ''
+    }
+  }
 
   render() {
     return (

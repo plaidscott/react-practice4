@@ -2,8 +2,8 @@ var axios = require('axios');
 var baseURL = 'http://localhost:3001';
 
 module.exports = {
-  initialData: () => {
-    return axios.get('http://localhost:3001/people?_page=1')
+  initialData: (currentPage) => {
+    return axios.get(`http://localhost:3001/people?_page=${currentPage}`)
       .then( response => {
         return response
       })

@@ -15,11 +15,9 @@ class Cardholder extends Component {
   }
 
   renderCards() {
-    console.log('this.props.responseArray', this.props.responseArray);
     let people = this.props.responseArray
     return people.map( (person, index) => {
       let homeworldName = this.findHomeworld(person.homeworld)
-      console.log('homeworldName in renderCards', homeworldName);
       return (
         <Card
           key={index}
@@ -55,7 +53,7 @@ class Cardholder extends Component {
         </div>
         <div className="pageChangeButtonsContainer">
           <Button bsStyle='primary' disabled={ this.props.currentPage === 1} onClick={this.handlePreviousPageClick}>previous page</Button>
-          <Button bsStyle='primary' disabled={ this.props.totalPersons / 10 < this.props.currentPage}onClick={this.handleNextPageClick}>next page</Button>
+          <Button bsStyle='primary' disabled={ this.props.totalPersons / 10 <= this.props.currentPage}onClick={this.handleNextPageClick}>next page</Button>
         </div>
       </div>
     );
