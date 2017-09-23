@@ -17,14 +17,15 @@ class Cardholder extends Component {
   renderCards() {
     let people = this.props.responseArray
     return people.map( (person, index) => {
-      let homeworldName = this.findHomeworld(person.homeworld)
+      let homeworldObject = this.findHomeworld(person.homeworld)
       return (
         <Card
           key={index}
           name={person.name}
           birthYear={person['birth_year']}
           hairColor={person['hair_color']}
-          homeworld={homeworldName}
+          homeworldObject={homeworldObject}
+          homeworld={homeworldObject.name}
           personObject={person}
           />
       );
@@ -32,10 +33,10 @@ class Cardholder extends Component {
   }
 
   findHomeworld(homeworldURL) {
-    var planetObject = this.props.planets.filter((planet) => {
+    var planetObjects = this.props.planets.filter((planet) => {
       return planet.url === homeworldURL;
     });
-    return (planetObject.length !== 0 ? planetObject[0].name : 'unkown')
+    return (planetObjects.length !== 0 ? planetObjects[0]: {name: 'unknown'})
   }
 
   handlePreviousPageClick() {

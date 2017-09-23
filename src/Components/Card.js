@@ -11,12 +11,15 @@ class Card extends Component {
       updatedName: '',
       updatedBirthYear: '',
       updatedHairColor: '',
-      updatedHomeworld: '',
+      updatedHomeworldName: '',
       hideNameInput: false,
       hideBirthYearInput: false,
       hideHairColorInput: false,
       hideHomeworldInput: false,
-      nameUpdateStatus: 0
+      nameUpdateStatus: 0,
+      hairColorUpdateStatus: 0,
+      birthYearUpdateStatus: 0,
+      homeworldUpdateStatus: 0
     }
     this.handleNameEdit = this.handleNameEdit.bind(this);
     this.handleBirthYearEdit = this.handleBirthYearEdit.bind(this);
@@ -36,16 +39,13 @@ class Card extends Component {
       this.setState({updatedName: e.target.value})
     }
     handleBirthYearEdit(e) {
-      console.log('handleBirthYearEdit in Card e.target.value', e.target.value);
       this.setState({updatedBirthYear: e.target.value})
     }
     handleHairColorEdit(e) {
-      console.log('handleHairColorEdit in Card e.target.value', e.target.value);
       this.setState({updatedHairColor: e.target.value})
     }
     handleHomeworldEdit(e) {
-      console.log('handleHomeworldEdit in Card e.target.value', e.target.value);
-      this.setState({updatedHomeworld: e.target.value})
+      this.setState({updatedHomeworldName: e.target.value})
     }
 
     toggleEditNameVisibility(e) {
@@ -65,30 +65,45 @@ class Card extends Component {
       if( e.keyCode === 13 ) {
         let updatedPersonObject = this.props.personObject;
         updatedPersonObject.name = this.state.updatedName
-        api.editName(updatedPersonObject)
+        api.editPerson(updatedPersonObject)
           .then( response => {
-            console.log('response in handleNameEditSubmission', response);
-            response.status === 200 ? this.toggleEditNameVisibility() : null;
             this.setState({nameUpdateStatus: response.status})
+            return response.status === 200 ? this.toggleEditNameVisibility() : null;
           })
       }
     }
     handleHairColorEditSubmission(e) {
       if( e.keyCode === 13 ) {
-        api.editHairColor()
-          .then()
+        let updatedPersonObject = this.props.personObject;
+        updatedPersonObject['hair_color'] = this.state.updatedHairColor;
+        api.editPerson(updatedPersonObject)
+          .then( response => {
+            this.setState({hairColorUpdateStatus: response.status})
+            return response.status === 200 ? this.toggleEditHairColorVisibility() : null;
+          })
       }
     }
     handleBirthYearEditSubmission(e) {
       if( e.keyCode === 13 ) {
-        api.editBirthYear()
-          .then()
+        let updatedPersonObject = this.props.personObject;
+        updatedPersonObject['birth_year'] = this.state.updatedBirthYear
+        api.editPerson(updatedPersonObject)
+          .then( response => {
+            this.setState({birthYearUpdateStatus: response.status})
+            return response.status === 200 ? this.toggleEditBirthYearVisibility() : null;
+          })
       }
     }
     handleHomeworldEditSubmission(e) {
       if( e.keyCode === 13 ) {
-        api.editHomeworld()
-          .then()
+        let updatedHomeworldObject = this.props.homeworldObject;
+        updatedHomeworldObject.name = this.state.updatedHomeworldName
+        api.editHomeworldName(updatedHomeworldObject)
+          .then( response => {
+            this.setState({homeworldUpdateStatus: response.status})
+            return response.status === 200 ? this.toggleEditHomeworldVisibility() : null;
+
+          })
       }
     }
   render() {
@@ -110,7 +125,8 @@ class Card extends Component {
             </FormGroup>
           ) : null
         }
-        <p onClick={this.toggleEditBirthYearVisibility} >birth year: {this.props.birthYear}</p>
+        <p onClick={this.toggleEditBirthYearVisibility} >
+          birth year: {this.state.birthYearUpdateStatus === 0 ? this.props.birthYear : this.state.birthYearUpdateStatus === 200 ? this.state.updatedBirthYear: null}</p>
           {
             this.state.hideBirthYearInput ? (
               <FormGroup>
@@ -119,12 +135,14 @@ class Card extends Component {
                   value={this.state.updatedBirthYear}
                   onChange={this.handleBirthYearEdit}
                   placeholder='edit Birth year here'
+                  onKeyUp={this.handleBirthYearEditSubmission}
                   >
                 </FormControl>
               </FormGroup>
             ) : null
           }
-        <p onClick={this.toggleEditHairColorVisibility} >hair color: {this.props.hairColor}</p>
+        <p onClick={this.toggleEditHairColorVisibility} >
+          hair color: {this.state.hairColorUpdateStatus === 0 ? this.props.hairColor : this.state.hairColorUpdateStatus === 200 ? this.state.updatedHairColor: null}</p>
           {
             this.state.hideHairColorInput ? (
               <FormGroup>
@@ -133,12 +151,14 @@ class Card extends Component {
                   value={this.state.updatedHairColor}
                   onChange={this.handleHairColorEdit}
                   placeholder='edit hair color here'
+                  onKeyUp={this.handleHairColorEditSubmission}
                   >
                 </FormControl>
               </FormGroup>
             ) : null
           }
-        <p onClick={this.toggleEditHomeworldVisibility} >homeworld: {this.props.homeworld}</p>
+        <p onClick={this.toggleEditHomeworldVisibility} >
+          homeworld: {this.state.homeworldUpdateStatus === 0 ? this.props.homeworldObject.name : this.state.homeworldUpdateStatus === 200 ? this.state.updatedHomeworldName: null}</p>
           {
             this.state.hideHomeworldInput ? (
               <FormGroup>
@@ -147,6 +167,7 @@ class Card extends Component {
                   value={this.state.updatedHomeworld}
                   onChange={this.handleHomeworldEdit}
                   placeholder='edit homeworld here'
+                  onKeyUp={this.handleHomeworldEditSubmission}
                   >
                 </FormControl>
               </FormGroup>
