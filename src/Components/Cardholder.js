@@ -25,10 +25,12 @@ class Cardholder extends Component {
           birthYear={person['birth_year']}
           hairColor={person['hair_color']}
           homeworld={homeworldName}
+          personObject={person}
           />
       );
     })
   }
+
   findHomeworld(homeworldURL) {
     var planetObject = this.props.planets.filter((planet) => {
       return planet.url === homeworldURL;
@@ -49,7 +51,11 @@ class Cardholder extends Component {
     return (
       <div className="cardholderContainer">
         <div className="Cardholder">
-          {this.renderCards()}
+          { this.props.responseArray.length !== 0 ? this.renderCards() : (
+            <div className="noContent">
+              <h3>Hi there, welcome to a Star Wars Search Engine. Go ahead and type a characteristic you want to search people by in the Star Wars Universe!</h3>
+            </div>
+          )}
         </div>
         <div className="pageChangeButtonsContainer">
           <Button bsStyle='primary' disabled={ this.props.currentPage === 1} onClick={this.handlePreviousPageClick}>previous page</Button>

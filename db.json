@@ -1029,6 +1029,14 @@
       "created": "2014-12-19T17:55:43.348000Z",
       "edited": "2014-12-20T21:17:50.399000Z",
       "url": "https://swapi.co/api/people/42/"
+    },
+    {
+      "name": "Scott the man",
+      "id": 41
+    },
+    {
+      "name": "Scott the real man",
+      "id": 42
     }
   ],
   "planets": [

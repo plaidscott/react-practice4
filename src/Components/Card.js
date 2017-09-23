@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import api from '../utils/api.js';
 import {FormGroup, FormControl} from 'react-bootstrap';
 
 import '../Styles/Card.css';
@@ -15,7 +15,8 @@ class Card extends Component {
       hideNameInput: false,
       hideBirthYearInput: false,
       hideHairColorInput: false,
-      hideHomeworldInput: false
+      hideHomeworldInput: false,
+      nameUpdateStatus: 0
     }
     this.handleNameEdit = this.handleNameEdit.bind(this);
     this.handleBirthYearEdit = this.handleBirthYearEdit.bind(this);
@@ -25,11 +26,13 @@ class Card extends Component {
     this.toggleEditBirthYearVisibility = this.toggleEditBirthYearVisibility.bind(this);
     this.toggleEditHairColorVisibility = this.toggleEditHairColorVisibility.bind(this);
     this.toggleEditHomeworldVisibility = this.toggleEditHomeworldVisibility.bind(this);
-    this.handleEditEnter = this.handleEditEnter.bind(this);
+    this.handleNameEditSubmission = this.handleNameEditSubmission.bind(this);
+    this.handleHairColorEditSubmission = this.handleHairColorEditSubmission.bind(this);
+    this.handleBirthYearEditSubmission = this.handleBirthYearEditSubmission.bind(this);
+    this.handleHomeworldEditSubmission = this.handleHomeworldEditSubmission.bind(this);
 
   }
     handleNameEdit(e) {
-      console.log('handleNameEdit in Card e.target.value', e.target.value);
       this.setState({updatedName: e.target.value})
     }
     handleBirthYearEdit(e) {
@@ -58,13 +61,41 @@ class Card extends Component {
       this.setState({ hideHomeworldInput: !this.state.hideHomeworldInput});
     }
 
-    handleEditEnter(e) {
-
+    handleNameEditSubmission(e) {
+      if( e.keyCode === 13 ) {
+        let updatedPersonObject = this.props.personObject;
+        updatedPersonObject.name = this.state.updatedName
+        api.editName(updatedPersonObject)
+          .then( response => {
+            console.log('response in handleNameEditSubmission', response);
+            response.status === 200 ? this.toggleEditNameVisibility() : null;
+            this.setState({nameUpdateStatus: response.status})
+          })
+      }
+    }
+    handleHairColorEditSubmission(e) {
+      if( e.keyCode === 13 ) {
+        api.editHairColor()
+          .then()
+      }
+    }
+    handleBirthYearEditSubmission(e) {
+      if( e.keyCode === 13 ) {
+        api.editBirthYear()
+          .then()
+      }
+    }
+    handleHomeworldEditSubmission(e) {
+      if( e.keyCode === 13 ) {
+        api.editHomeworld()
+          .then()
+      }
     }
   render() {
     return (
       <div className="Card">
-        <p onClick={this.toggleEditNameVisibility} >name: {this.props.name}</p>
+        <p onClick={this.toggleEditNameVisibility} >
+          name: {this.state.nameUpdateStatus === 0 ? this.props.name : this.state.nameUpdateStatus === 200 ? this.state.updatedName: null}</p>
         {
           this.state.hideNameInput ? (
             <FormGroup>
@@ -72,6 +103,7 @@ class Card extends Component {
                 autoFocus
                 value={this.state.updatedName}
                 onChange={this.handleNameEdit}
+                onKeyUp={this.handleNameEditSubmission}
                 placeholder='edit name here'
                 >
               </FormControl>

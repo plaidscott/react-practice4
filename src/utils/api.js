@@ -29,5 +29,19 @@ module.exports = {
         return response;
 
       })
+  },
+  editName: (updatedPersonObject) => {
+    console.log('updatedPersonObject in api.js', updatedPersonObject);
+    return axios.put(`${baseURL}/people/${updatedPersonObject.id}`,
+      updatedPersonObject,
+      {headers: {"Content-Type": "application/json"}}
+    )
+      .then( response => {
+        console.log('response in editName', response);
+        return response;
+      })
+        .catch( error => {
+          console.log('error in editName', error);
+        })
   }
 }

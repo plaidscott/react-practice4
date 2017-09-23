@@ -21,3 +21,16 @@
   justify-content: space-around;
 
 }
+
+.noContent {
+  height: 50%;
+  width: 50%;
+  color: white;
+  background-color: black;
+  opacity: .85;
+  border-radius: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}

@@ -17,25 +17,13 @@ class Main extends Component {
       totalPersons: 0,
       stillReadingInitalData: true
     }
-    this.initialData = this.initialData.bind(this);
     this.handleChangeSearchInput = this.handleChangeSearchInput.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.changePage = this.changePage.bind(this);
     this.initialPlanetList = this.initialPlanetList.bind(this);
   }
   componentWillMount() {
-    // this.initialData(this.state.currentPage);
     this.initialPlanetList();
-  }
-  initialData(currentPage) {
-    api.initialData(currentPage)
-      .then( response  => {
-        this.setState({
-          peoplesResponse: response.data,
-          totalPersons: response.headers['x-total-count']
-
-        })
-      })
   }
 
   initialPlanetList() {
@@ -50,6 +38,7 @@ class Main extends Component {
   handleChangeSearchInput(e) {
     this.setState({ searchInput: e.target.value});
   }
+
   handleSearch(e) {
     e.preventDefault();
     if(e.keyCode === 13) {
@@ -68,6 +57,7 @@ class Main extends Component {
       })
     }
   }
+
   handlePageChangeSearch(incrementNumber) {
     console.log(this.state.currentPage,'------------')
     api.search(this.state.previousSearchInput, this.state.currentPage + incrementNumber)
@@ -79,6 +69,7 @@ class Main extends Component {
         })
       })
   }
+
   changePage(incrementNumber) {
     console.log('increment number', incrementNumber)
     let newPageNumber = this.state.currentPage + incrementNumber;
@@ -86,7 +77,6 @@ class Main extends Component {
     this.setState({currentPage: newPageNumber})
     this.handlePageChangeSearch(incrementNumber);
   }
-
 
   render() {
     return (
