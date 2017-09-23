@@ -9,7 +9,7 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      testResponse: '',
+      previousSearchInput: '',
       searchInput: '',
       peoplesResponse: [],
       planets: [],
@@ -24,7 +24,7 @@ class Main extends Component {
     this.initialPlanetList = this.initialPlanetList.bind(this);
   }
   componentWillMount() {
-    this.initialData(this.state.currentPage);
+    // this.initialData(this.state.currentPage);
     this.initialPlanetList();
   }
   initialData(currentPage) {
@@ -54,7 +54,7 @@ class Main extends Component {
     e.preventDefault();
     if(e.keyCode === 13) {
       this.setState({currentPage: 1})
-      api.search(this.state.searchInput)
+      api.search(this.state.searchInput, 1)
         .then( response => {
           console.log('response in handleSearch', response);
           this.setState({
@@ -62,14 +62,29 @@ class Main extends Component {
             totalPersons: response.headers['x-total-count']
           })
         })
-      this.setState({searchInput: ''})
+      this.setState({
+        previousSearchInput: this.state.searchInput,
+        searchInput: ''
+      })
     }
   }
+  handlePageChangeSearch(incrementNumber) {
+    console.log(this.state.currentPage,'------------')
+    api.search(this.state.previousSearchInput, this.state.currentPage + incrementNumber)
+      .then( response => {
+        console.log('response in handleSearch', response);
+        this.setState({
+          peoplesResponse: response.data,
+          totalPersons: response.headers['x-total-count']
+        })
+      })
+  }
   changePage(incrementNumber) {
+    console.log('increment number', incrementNumber)
     let newPageNumber = this.state.currentPage + incrementNumber;
     console.log('this.changePage');
     this.setState({currentPage: newPageNumber})
-    this.initialData(newPageNumber)
+    this.handlePageChangeSearch(incrementNumber);
   }
 
 

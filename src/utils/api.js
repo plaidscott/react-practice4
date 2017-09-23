@@ -8,9 +8,9 @@ module.exports = {
         return response
       })
   },
-  search: ( textToSearch ) => {
+  search: ( textToSearch , currentPage ) => {
     console.log('texttoSearch in api.js', textToSearch);
-    return axios.get(`${baseURL}/people?q=${textToSearch}&_limit=10`)
+    return axios.get(`${baseURL}/people?q=${textToSearch}&_page=${currentPage}`)
       .then(response => {
         return response
       })
