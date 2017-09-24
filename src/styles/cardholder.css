@@ -1,0 +1,30 @@
+.Cardholder {
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  background-image: url('../media/rebelSymbol.jpg');
+  height: 550px;
+  width: 1000px;
+}
+
+.cardholdercontainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.noContent {
+  height: 300px;
+  width: 500px;
+  background-color: black;
+  color: white;
+  border-radius: 15%;
+  opacity: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}

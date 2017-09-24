@@ -1,0 +1,20 @@
+.Main {
+  height: 100vh;
+  width: 100vw;
+  background-image: url('../media/starsBackground.png');
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.textToSearchContainer {
+  color: white;
+
+}
+
+.changePageContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
