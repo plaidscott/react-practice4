@@ -10,21 +10,31 @@ class Cardholder extends Component {
     super(props);
     this.state = {
     }
+    this.renderCards = this.renderCards.bind(this);
+    this.findPlanet = this.findPlanet.bind(this);
   }
   renderCards() {
-    let people = this.props.searchResponse
+    let people = this.props.searchResponse;
     return people.map((card) => {
+      let homeworldName = this.findPlanet(card.homeworld)
       return (
         <Card
           key={card.id}
           personData={card}
           name={card.name}
           birthYear={card['birth_year']}
-          homeworld={card.homeworld}
+          homeworld={homeworldName}
           />
       )
     })
   }
+  findPlanet(planetURL) {
+      let planetArray = this.props.responsePlanets.filter( (planet) => {
+        return planet.url === planetURL;
+      })
+      return planetArray.length === 1 ? planetArray[0].name : 'unkown';
+  }
+
   render() {
     return (
       <div className="Cardholder">
