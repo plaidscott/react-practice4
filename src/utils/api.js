@@ -41,9 +41,12 @@ module.exports = {
   editHomeworldName: (updatedPlanetObject) => {
     return axios({
       method: 'put',
-      url: `${baseURL}/planets/${updatedPlanetObject}`,
+      url: `${baseURL}/planets/${updatedPlanetObject.id}`,
       header: {"Content-Type": 'application/json'},
       data: updatedPlanetObject
+    })
+    .catch( error => {
+      console.log('error in editHomeworldName in api.js', error)
     })
   }
 }

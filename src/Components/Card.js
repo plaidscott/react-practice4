@@ -20,6 +20,7 @@ class Card extends Component {
     this.handleNewNameInput = this.handleNewNameInput.bind(this);
     this.handleNewBirthYearInput = this.handleNewBirthYearInput.bind(this);
     this.handleNewHomeworldInput = this.handleNewHomeworldInput.bind(this);
+    this.findHomeworldURL = this.findHomeworldURL.bind(this);
   }
 
   editDisplayVisibility() {
@@ -27,19 +28,18 @@ class Card extends Component {
   }
 
   handleEditPerson(e) {
-    console.log('this.personData', this.props.personData);
     let personObject = this.props.personData;
     this.state.newName.length > 0 ? personObject.name = this.state.newName : null
     this.state.newBirthYear.length > 0 ? personObject['birth_year'] = this.state.newBirthYear : null
     this.state.newHomeworld.length > 0 ? (
-      api.editHomeworldName(this.state.newHomeworldName)
+    api.editHomeworldName(this.findHomeworldURL(personObject.homeworld)[0])
         .then( response => {
           console.log('response in editHomeworldName', response);
         })
     ) : null
+    console.log('this.findHomeworldURL(personObject.homeworld)', this.findHomeworldURL(personObject.homeworld)[0]);
     api.editPerson(personObject)
       .then( response => {
-        console.log('response.data in editPerson in Card', response.data);
         this.setState({ editedPersonResponseObject: response.data})
       })
     }
@@ -56,10 +56,21 @@ class Card extends Component {
     this.setState({newHomeworld: e.target.value})
   }
 
+  findHomeworldURL(planetURLToSearch) {
+    console.log('planetURLToSearch', planetURLToSearch);
+    let tempPlanetArray = this.props.responsePlanets.filter( planet => {
+      return planet.url === planetURLToSearch
+    })
+    tempPlanetArray.length > 0 ? tempPlanetArray[0].name = this.state.newHomeworld : null
+    console.log('tempPlanetArray', tempPlanetArray);
+    return tempPlanetArray;
+  }
+
 
 
 
   render() {
+
     return (
       <div className="card">
         <div onClick={this.editDisplayVisibility}>
@@ -95,7 +106,7 @@ class Card extends Component {
             ) : null
           }
           <div onClick={this.editDisplayVisibility}>
-            Homeworld: {this.props.homeworld}
+            Homeworld: {this.state.newHomeworld ? this.state.newHomeworld : this.props.homeworld}
           </div>
           {this.state.editDisplay
             ? (

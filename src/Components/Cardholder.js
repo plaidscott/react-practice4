@@ -24,6 +24,7 @@ class Cardholder extends Component {
           name={card.name}
           birthYear={card['birth_year']}
           homeworld={homeworldName}
+          responsePlanets={this.props.responsePlanets}
           />
       )
     })

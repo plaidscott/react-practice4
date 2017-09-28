@@ -31,7 +31,6 @@ class Main extends Component {
   getPlanetList() {
     api.getPlanetList()
       .then( response => {
-        console.log('response in getPlanetList in main', response);
         this.setState({
           responsePlanets: response
         })
@@ -47,7 +46,6 @@ class Main extends Component {
     if(e.keyCode === 13) {
       api.searchUserInputText(this.state.userTextInput, 1)
         .then( response => {
-          console.log('response in handleSearchSubmission', response);
           this.setState({
             searchResponse: response.data,
             responseTotalCount: Number(response.headers['x-total-count']),
@@ -60,7 +58,6 @@ class Main extends Component {
   handlePageChangeSearch(newPageNumber) {
     api.searchUserInputText(this.state.previousTextInput, newPageNumber)
       .then( response => {
-        console.log('response in handleSearchSubmission', response);
         this.setState({
           searchResponse: response.data,
           responseTotalCount: Number(response.headers['x-total-count']),
