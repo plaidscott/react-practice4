@@ -23,6 +23,7 @@ module.exports = {
       });
   },
   editPerson: (personObject) => {
+    console.log('personObject in editPerson in api.js', personObject);
     return axios({
       method: 'put',
       url: `${baseURL}/people/${personObject.id}`,

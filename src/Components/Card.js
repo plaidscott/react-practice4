@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {FormGroup, FormControl, Button} from 'react-bootstrap';
 import api from '../utils/api.js';
+import Favorites from './Favorites.js';
 
 import '../styles/card.css'
 
@@ -34,10 +35,8 @@ class Card extends Component {
     this.state.newHomeworld.length > 0 ? (
     api.editHomeworldName(this.findHomeworldURL(personObject.homeworld)[0])
         .then( response => {
-          console.log('response in editHomeworldName', response);
         })
     ) : null
-    console.log('this.findHomeworldURL(personObject.homeworld)', this.findHomeworldURL(personObject.homeworld)[0]);
     api.editPerson(personObject)
       .then( response => {
         this.setState({ editedPersonResponseObject: response.data})
@@ -57,20 +56,14 @@ class Card extends Component {
   }
 
   findHomeworldURL(planetURLToSearch) {
-    console.log('planetURLToSearch', planetURLToSearch);
     let tempPlanetArray = this.props.responsePlanets.filter( planet => {
       return planet.url === planetURLToSearch
     })
     tempPlanetArray.length > 0 ? tempPlanetArray[0].name = this.state.newHomeworld : null
-    console.log('tempPlanetArray', tempPlanetArray);
     return tempPlanetArray;
   }
 
-
-
-
   render() {
-
     return (
       <div className="card">
         <div onClick={this.editDisplayVisibility}>
@@ -121,7 +114,9 @@ class Card extends Component {
                 <Button onClick={this.handleEditPerson}> Submit Changes</Button>
               </FormGroup>
 
-            ) : null
+            ) : (
+              <Favorites starCount={this.props.starCount} personData={this.props.personData}/>
+            )
 
           }
 

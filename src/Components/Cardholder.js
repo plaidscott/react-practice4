@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import {Button} from 'react-bootstrap';
 
 import Card from './Card.js';
-import '../styles/cardholder.css'
+import FavoritesPage from './FavoritesPage.js';
+import '../styles/cardholder.css';
+import '../styles/FavoritesPage.css';
 
 
 
@@ -15,6 +18,7 @@ class Cardholder extends Component {
   }
   renderCards() {
     let people = this.props.searchResponse;
+    console.log('people in renderCards', people)
     return people.map((card) => {
       let homeworldName = this.findPlanet(card.homeworld)
       return (
@@ -24,6 +28,7 @@ class Cardholder extends Component {
           name={card.name}
           birthYear={card['birth_year']}
           homeworld={homeworldName}
+          starCount={card.starCount}
           responsePlanets={this.props.responsePlanets}
           />
       )
@@ -39,8 +44,11 @@ class Cardholder extends Component {
   render() {
     return (
       <div className="Cardholder">
+        <Button onClick={() => { this.setState({ FavoritesPageVisibility: !this.state.FavoritesPageVisibility})}}>FavoritesPage</Button>
         <div className='cardholdercontainer'>
-          { this.props.searchResponse.length !== 0 ? this.renderCards(): (
+          { this.state.FavoritesPageVisibility ? <FavoritesPage />
+          : this.props.searchResponse.length !== 0 ? this.renderCards()
+          : (
             <div className='noContent'>
               <h3>Hi there, welcome to a Star Wars Search Engine. Go ahead and type a characteristic you want to search people by in the Star Wars Universe!</h3>
             </div>
