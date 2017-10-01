@@ -1,3 +1,18 @@
 .FavoritesPageContainer {
   color: white;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: auto;
+}
+
+.favCard {
+  height: 100px;
+  width: 175px;
+  background-color: black;
+  border-radius: 15%;
+  opacity: .85;
+  color: white;
+  padding: 10px;
+  margin: 10px;
+  overflow: auto;
 }

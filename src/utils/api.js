@@ -49,5 +49,15 @@ module.exports = {
     .catch( error => {
       console.log('error in editHomeworldName in api.js', error)
     })
+  },
+  favoritePeople: (currentPage) => {
+    return axios.get(`${baseURL}/people?starCount_gte=1&_page=${currentPage}`)
+      .then( response => {
+        console.log('favoritePeople in apiu*************response', response);
+        return response;
+      })
+      .catch( error => {
+        console.log('error in getFavoritedPeople in api.js', error)
+      })
   }
 }

@@ -21,10 +21,8 @@ class Favorites extends Component {
   removeStar() {
     let Person = this.props.personData
     Person.starCount = this.state.starCountUpdated - 1;
-    console.log('Person in removestar', Person);
     api.editPerson(Person)
       .then( response => {
-        console.log('response in removeStar, editPerson in Favorites', response);
         this.setState({ starCountUpdated: response.data.starCount})
       })
   }
@@ -32,10 +30,8 @@ class Favorites extends Component {
   addStar() {
     let Person = this.props.personData
     Person.starCount = this.state.starCountUpdated + 1;
-    console.log('Person in removestar', Person);
     api.editPerson(Person)
       .then( response => {
-        console.log('response in removeStar, editPerson in Favorites', response);
         this.setState({ starCountUpdated: response.data.starCount})
       })
 

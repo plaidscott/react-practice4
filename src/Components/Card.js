@@ -34,8 +34,7 @@ class Card extends Component {
     this.state.newBirthYear.length > 0 ? personObject['birth_year'] = this.state.newBirthYear : null
     this.state.newHomeworld.length > 0 ? (
     api.editHomeworldName(this.findHomeworldURL(personObject.homeworld)[0])
-        .then( response => {
-        })
+        .then( response => {})
     ) : null
     api.editPerson(personObject)
       .then( response => {

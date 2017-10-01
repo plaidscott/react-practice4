@@ -12,13 +12,14 @@ class Cardholder extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      FavoritesPageVisibility: false
     }
     this.renderCards = this.renderCards.bind(this);
     this.findPlanet = this.findPlanet.bind(this);
+    this.updateVisibility = this.updateVisibility.bind(this);
   }
   renderCards() {
     let people = this.props.searchResponse;
-    console.log('people in renderCards', people)
     return people.map((card) => {
       let homeworldName = this.findPlanet(card.homeworld)
       return (
@@ -40,13 +41,18 @@ class Cardholder extends Component {
       })
       return planetArray.length === 1 ? planetArray[0].name : 'unkown';
   }
+  updateVisibility() {
+    this.props.hoistFavPageVisibility(!this.state.FavoritesPageVisibility)
+    this.setState({ FavoritesPageVisibility: !this.state.FavoritesPageVisibility})
+  }
 
   render() {
     return (
       <div className="Cardholder">
-        <Button onClick={() => { this.setState({ FavoritesPageVisibility: !this.state.FavoritesPageVisibility})}}>FavoritesPage</Button>
+
+        <Button onClick={this.updateVisibility}>FavoritesPage</Button>
         <div className='cardholdercontainer'>
-          { this.state.FavoritesPageVisibility ? <FavoritesPage />
+          { this.state.FavoritesPageVisibility ? <FavoritesPage favCurrentPage={this.props.favCurrentPage}/>
           : this.props.searchResponse.length !== 0 ? this.renderCards()
           : (
             <div className='noContent'>
