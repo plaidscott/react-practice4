@@ -2,6 +2,8 @@ var axios = require('axios');
 
 const baseURL = 'http://localhost:3001';
 
+console.log('hi there from api.js')
+
 module.exports = {
   getPlanetList: () => {
     return axios.get(`${baseURL}/planets`)
